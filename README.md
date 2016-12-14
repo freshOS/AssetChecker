@@ -33,7 +33,7 @@ Add the following `Run Script` in XCode, this will run the script at every build
 Use the path of where you copied ImageAssetChecker script
 
 ```shell
-${SRCROOT}/{PATH_TO_THE_SCRIPT}}/ImageAssetChecker.swift
+${SRCROOT}/{PATH_TO_THE_SCRIPT}}/AssetChecker.swift
 ```
 
 Configure top section of the script :

@@ -7,8 +7,7 @@ let sourcePath = "/Sources"
 let assetCatalogPath = "/Resources/Assets.xcassets"
 
 
-
-// MARK : - End Of Configurable Sexction
+// MARK : - End Of Configurable Section
 
 func listAssets() -> [String] {
     var assetNames = [String]()
@@ -17,7 +16,9 @@ func listAssets() -> [String] {
     let extensionName = "imageset"
     while let element = enumerator?.nextObject() as? String {
         if element.hasSuffix(extensionName) {
-            let name = element.replacingOccurrences(of: ".\(extensionName)", with: "")
+            var name = element.replacingOccurrences(of: ".\(extensionName)", with: "")
+            // Remove folder path
+            name = name.components(separatedBy: "/").last ?? name
             assetNames.append(name)
         }
     }
