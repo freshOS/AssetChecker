@@ -5,6 +5,18 @@ import Foundation
 // Configure me \o/
 let sourcePath = "/Sources"
 let assetCatalogPath = "/Resources/Assets.xcassets"
+let ignoredUnusedNames = [String]()
+
+/* Put here the asset generating false positives, 
+ For instance whne you build asset names at runtime
+let ignoredUnusedNames = [
+    "IconArticle",
+    "IconMedia",
+    "voteEN",
+    "voteES",
+    "voteFR"
+] 
+*/
 
 
 // MARK : - End Of Configurable Section
@@ -64,7 +76,11 @@ func listUsedAssetLiterals() -> [String] {
 
 
 let assets = Set(listAssets())
-let used = Set(listUsedAssetLiterals())
+var usedArray = listUsedAssetLiterals()
+usedArray.append(contentsOf: ignoredUnusedNames)
+let used = Set(usedArray)
+
+
 
 
 // Generate Warnings for Unused Assets

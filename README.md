@@ -41,6 +41,7 @@ Configure top section of the script :
 // Configure me \o/
 let sourcePath = "/Sources"
 let assetCatalogPath = "/Resources/Assets.xcassets"
+let ignoredUnusedNames = [String]()
 ```
 Run and Enjoy \o/
 
