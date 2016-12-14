@@ -2,7 +2,13 @@
 
 import Foundation
 
-let assetCatalogPath = "/FastIteration/Assets.xcassets"
+// Configure me \o/
+let sourcePath = "/Sources"
+let assetCatalogPath = "/Resources/Assets.xcassets"
+
+
+
+// MARK : - End Of Configurable Sexction
 
 func listAssets() -> [String] {
     var assetNames = [String]()
@@ -22,7 +28,7 @@ func listUsedAssetLiterals() -> [String] {
     let patterns = [
         "#imageLiteral\\(resourceName: \"(\\w+)\"\\)" // Image Literal
     ]
-    let sourcesPath = FileManager.default.currentDirectoryPath + "/FastIteration"
+    let sourcesPath = FileManager.default.currentDirectoryPath + sourcePath
     let fileManager = FileManager.default
     let enumerator = fileManager.enumerator(atPath:sourcesPath)
     var localizedStrings = [String]()

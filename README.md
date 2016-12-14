@@ -35,6 +35,13 @@ Use the path of where you copied ImageAssetChecker script
 ```shell
 ${SRCROOT}/{PATH_TO_THE_SCRIPT}}/ImageAssetChecker.swift
 ```
+
+Configure top section of the script :
+```swift
+// Configure me \o/
+let sourcePath = "/Sources"
+let assetCatalogPath = "/Resources/Assets.xcassets"
+```
 Run and Enjoy \o/
 
 
