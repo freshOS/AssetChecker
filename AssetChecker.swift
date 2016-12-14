@@ -39,7 +39,8 @@ func listAssets() -> [String] {
 
 func listUsedAssetLiterals() -> [String] {
     let patterns = [
-        "#imageLiteral\\(resourceName: \"(\\w+)\"\\)" // Image Literal
+        "#imageLiteral\\(resourceName: \"(\\w+)\"\\)", // Image Literal
+        "UIImage\\(named: \"(\\w+)\"\\)" // Default UIImage call
     ]
     let sourcesPath = FileManager.default.currentDirectoryPath + sourcePath
     let fileManager = FileManager.default
