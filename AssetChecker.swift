@@ -21,86 +21,82 @@ let ignoredUnusedNames = [
 
 // MARK : - End Of Configurable Section
 
-func listAssets() -> [String] {
-    var assetNames = [String]()
-    let path = FileManager.default.currentDirectoryPath + assetCatalogPath
-    let enumerator: FileManager.DirectoryEnumerator? = FileManager.default.enumerator(atPath: path)
-    let extensionName = "imageset"
-    while let element = enumerator?.nextObject() as? String {
-        if element.hasSuffix(extensionName) {
-            var name = element.replacingOccurrences(of: ".\(extensionName)", with: "")
-            // Remove folder path
-            name = name.components(separatedBy: "/").last ?? name
-            assetNames.append(name)
-        }
+
+let assetCatalogAbsolutePath = FileManager.default.currentDirectoryPath + assetCatalogPath
+
+func elementsInEnumerator(_ enumerator: FileManager.DirectoryEnumerator?) -> [String] {
+    var elements = [String]()
+    while let e = enumerator?.nextObject() as? String {
+        elements.append(e)
     }
-    return assetNames
+    return elements
 }
 
-func listUsedAssetLiterals() -> [String] {
+
+
+// MARK: - List Assets
+
+func listAssets() -> [String] {
+    let extensionName = "imageset"
+    let enumerator = FileManager.default.enumerator(atPath: assetCatalogAbsolutePath)
+    return elementsInEnumerator(enumerator)
+        .filter { $0.hasSuffix(extensionName) }                             // Is Asset
+        .map { $0.replacingOccurrences(of: ".\(extensionName)", with: "") } // Remove extension
+        .map { $0.components(separatedBy: "/").last ?? $0 }                 // Remove folder path
+}
+
+
+
+// MARK: - List Used Assets in the codebase
+
+func localizedStrings(inStringFile: String) -> [String] {
+    var localizedStrings = [String]()
     let patterns = [
         "#imageLiteral\\(resourceName: \"(\\w+)\"\\)", // Image Literal
         "UIImage\\(named: \"(\\w+)\"\\)" // Default UIImage call
     ]
-    let sourcesPath = FileManager.default.currentDirectoryPath + sourcePath
-    let fileManager = FileManager.default
-    let enumerator = fileManager.enumerator(atPath:sourcesPath)
-    var localizedStrings = [String]()
-    while let swiftFileLocation = enumerator?.nextObject() as? String {
-        // checks the extension // TODO OBJC?
-        if swiftFileLocation.hasSuffix(".swift") || swiftFileLocation.hasSuffix(".m") {
-            let location = "\(sourcesPath)/\(swiftFileLocation)"
-            if let string = try? String(contentsOfFile: location, encoding: .utf8) {
-                for p in patterns {
-                    let regex = try? NSRegularExpression(pattern: p, options: [])
-                    let range = NSRange(location:0, length:(string as NSString).length) //Obj c wa
-                    regex?.enumerateMatches(in: string,
-                                            options: [],
-                                            range: range,
-                                            using: { (result, _, _) in
-                                                if let r = result {
-                                                    let value = (string as NSString).substring(with:r.rangeAt(1))
-                                                    localizedStrings.append(value)
-                                                }
-                    })
-                }
+    for p in patterns {
+        let regex = try? NSRegularExpression(pattern: p, options: [])
+        let range = NSRange(location:0, length:(inStringFile as NSString).length)
+        regex?.enumerateMatches(in: inStringFile,options: [], range: range) { result, _, _ in
+            if let r = result {
+                let value = (inStringFile as NSString).substring(with:r.rangeAt(1))
+                localizedStrings.append(value)
             }
         }
     }
     return localizedStrings
 }
 
+func listUsedAssetLiterals() -> [String] {
+    let sourcesPath = FileManager.default.currentDirectoryPath + sourcePath
+    let enumerator = FileManager.default.enumerator(atPath:sourcesPath)
+    return elementsInEnumerator(enumerator)
+        .filter { $0.hasSuffix(".swift") || $0.hasSuffix(".m") }    // Only Swift and Obj-C files
+        .map { "\(sourcesPath)/\($0)" }                             // Build file paths
+        .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
+        .flatMap{$0}                                                // Remove nil entries
+        .map(localizedStrings)                                      // Find localizedStrings ocurrences
+        .flatMap{$0}                                                // Flatten
+}
 
 
-
-
+// MARK: - Begining of script
 
 
 let assets = Set(listAssets())
-var usedArray = listUsedAssetLiterals()
-usedArray.append(contentsOf: ignoredUnusedNames)
-let used = Set(usedArray)
-
-
+let used = Set(listUsedAssetLiterals() + ignoredUnusedNames)
 
 
 // Generate Warnings for Unused Assets
 let unused = assets.subtracting(used)
-unused.forEach { assetName in
-    var path = FileManager.default.currentDirectoryPath + assetCatalogPath
-    print("\(path):: warning: [Asset Unused] \(assetName)")
-}
+unused.forEach { print("\(assetCatalogAbsolutePath):: warning: [Asset Unused] \($0)") }
 
 
 // Generate Error for broken Assets
 let broken = used.subtracting(assets)
-broken.forEach { assetName in
-    var path = FileManager.default.currentDirectoryPath + assetCatalogPath
-    print("\(path):: error: [Asset Missing] \(assetName)")
-}
+broken.forEach { print("\(assetCatalogAbsolutePath):: error: [Asset Missing] \($0)") }
 
 if broken.count > 0 {
     exit(1)
 }
-
-// TODO unsused get file and line
