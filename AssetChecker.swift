@@ -52,7 +52,7 @@ func listAssets() -> [String] {
 func localizedStrings(inStringFile: String) -> [String] {
     var localizedStrings = [String]()
     let patterns = [
-        "#imageLiteral\\(resourceName: \"(\\w+)\"\\)", // Image Literal
+        "#imageLiteral\\(resourceName: \"([\\w-]+)\"\\)", // Image Literal
         "UIImage\\(named: \"(\\w+)\"\\)" // Default UIImage call
     ]
     for p in patterns {
