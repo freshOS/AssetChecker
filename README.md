@@ -1,5 +1,3 @@
-
-
 ![Localize](https://raw.githubusercontent.com/s4cha/AssetChecker/master/banner.png)
 
 # AssetChecker
@@ -14,9 +12,11 @@
 
 ![AssetChecker](https://raw.githubusercontent.com/s4cha/AssetChecker/master/xcodeScreenshot.png)
 
+Because **Image Assets** files are not safe, if an asset is ever deleted, nothing will warn you that an image is broken in your code.
 
-## Why
-Because **Image Assets** files are not safe, if an asset is ever deleted, nothing willl warn you that an image is broken in your code.
+## Try it!
+
+AssetChecker is part of [freshOS](http://freshos.org) iOS toolset. Try it in an example App ! <a class="github-button" href="https://github.com/freshOS/StarterProject/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download freshOS/StarterProject on GitHub">Download Starter Project</a>
 
 ## How
 By using a **script** running automatically, you have a **safety net** that makes using Asset Catalog a breeze.
