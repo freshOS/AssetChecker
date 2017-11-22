@@ -2,14 +2,15 @@
   "name": "AssetChecker",
   "version": "0.1.0",
   "summary": "A short description of AssetChecker.",
-  "description": "TODO: Add long description of the pod here.",
+  "description": "Because Image Assets files are not safe, if an asset is ever deleted, nothing will warn you that an image is broken in your code.  AssetChecker lints your asset catalog.",
   "homepage": "https://github.com/joeboyscout04/AssetChecker",
+  "screenshots": "https://raw.githubusercontent.com/s4cha/AssetChecker/master/xcodeScreenshot.png",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "joeboyscout04": "joeboyscout04@gmail.com"
+    "Sacha Durand Saint Omer": "sachadso@gmail.com"
   },
   "source": {
     "git": "https://github.com/joeboyscout04/AssetChecker.git",

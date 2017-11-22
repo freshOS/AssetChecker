@@ -1,6 +1,11 @@
 use_frameworks!
-target 'AssetChecker_Tests' do
+
+target 'AssetChecker_Example' do
   pod 'AssetChecker', :path => '../'
-  
-  
+
+  target 'AssetChecker_Tests' do
+    inherit! :search_paths
+
+    
+  end
 end

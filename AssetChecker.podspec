@@ -18,13 +18,13 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Because Image Assets files are not safe, if an asset is ever deleted, nothing will warn you that an image is broken in your code.  AssetChecker lints your asset catalog.
                        DESC
 
   s.homepage         = 'https://github.com/joeboyscout04/AssetChecker'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.screenshots     = 'https://raw.githubusercontent.com/s4cha/AssetChecker/master/xcodeScreenshot.png'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'joeboyscout04' => 'joeboyscout04@gmail.com' }
+  s.author           = { 'Sacha Durand Saint Omer' => 'sachadso@gmail.com' }
   s.source           = { :git => 'https://github.com/joeboyscout04/AssetChecker.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
@@ -36,7 +36,4 @@ TODO: Add long description of the pod here.
   #   'AssetChecker' => ['AssetChecker/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
