@@ -1,0 +1,6 @@
+framework module AssetChecker {
+  umbrella header "AssetChecker-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "AssetChecker",
+  "version": "0.1.0",
+  "summary": "A short description of AssetChecker.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/joeboyscout04/AssetChecker",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "joeboyscout04": "joeboyscout04@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/joeboyscout04/AssetChecker.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "AssetChecker/Classes/**/*"
+}

@@ -85,8 +85,6 @@ func listUsedAssetLiterals() -> [String] {
 
 
 // MARK: - Begining of script
-
-
 let assets = Set(listAssets())
 let used = Set(listUsedAssetLiterals() + ignoredUnusedNames)
 
@@ -103,4 +101,3 @@ broken.forEach { print("\(assetCatalogAbsolutePath):: error: [Asset Missing] \($
 if broken.count > 0 {
     exit(1)
 }
-

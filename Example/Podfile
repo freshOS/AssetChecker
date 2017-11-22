@@ -1,0 +1,6 @@
+use_frameworks!
+target 'AssetChecker_Tests' do
+  pod 'AssetChecker', :path => '../'
+  
+  
+end
