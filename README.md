@@ -5,7 +5,7 @@
 ![Platform: iOS](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/7c6098dd-e48e-4283-a04e-2b74aeb80a2e)](https://codebeat.co/projects/github-com-s4cha-assetchecker)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/Localize/blob/master/LICENSE)
-[![GitHub tag](https://img.shields.io/github/release/freshos/AssetChecker.svg)]()
+[![GitHub tag](https://img.shields.io/github/release/freshos/AssetChecker.svg)](https://github.com/freshOS/AssetChecker/releases)
 
 *AssetChecker* is a tiny run script that keeps your `Assets.xcassets` files clean and emits warnings when something is suspicious.
 
