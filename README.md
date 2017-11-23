@@ -29,14 +29,32 @@ Automatically (On build)
 
 ## Installation
 
+Installation available via Cocoapods.  Add the following to your Podfile:
+```shell
+pod 'AssetChecker', :git => 'https://github.com/joeboyscout04/AssetChecker.git', :branch => 'pods'
+```
+Or copy the script into your project.
+
 Add the following `Run Script` in XCode, this will run the script at every build.
-Use the path of where you copied ImageAssetChecker script
+If you installed via Cocoapods, you can use the following script:
+
+```shell
+${PODS_ROOT}/AssetChecker/run --catalog ${SRCROOT}/Resource/Images.xcassets
+```
+
+with arguments:
+```
+--catalog Absolute path to your Asset catalog (required)
+--source Absolute path to your source directory.  Defaults to $SRCROOT
+```
+
+If you didn't use Cocoapods, use the path of where you copied AssetChecker script:
 
 ```shell
 ${SRCROOT}/{PATH_TO_THE_SCRIPT}}/AssetChecker.swift
 ```
 
-Configure top section of the script :
+And configure top section of the script :
 ```swift
 // Configure me \o/
 let sourcePath = "/Sources"
