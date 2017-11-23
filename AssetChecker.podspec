@@ -31,6 +31,7 @@ Because Image Assets files are not safe, if an asset is ever deleted, nothing wi
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'AssetChecker/Classes/**/*'
+  s.preserve_paths = [ "run" ]
   
   # s.resource_bundles = {
   #   'AssetChecker' => ['AssetChecker/Assets/*.png']
