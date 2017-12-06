@@ -52,16 +52,25 @@ func elementsInEnumerator(_ enumerator: FileManager.DirectoryEnumerator?) -> [St
     return elements
 }
 
+// MARK: - Search for asset catalogs
+let assetCatalogPaths = elementsInEnumerator(FileManager.default.enumerator(atPath: sourcePath)).filter { $0.hasSuffix(".xcassets") }
+
+print("Searching sources in \(sourcePath) for assets in \(assetCatalogPaths)")
 
 // MARK: - List Assets
 
-func listAssets() -> [String] {
-    let extensionName = "imageset"
-    let enumerator = FileManager.default.enumerator(atPath: assetCatalogAbsolutePath)
-    return elementsInEnumerator(enumerator)
-        .filter { $0.hasSuffix(extensionName) }                             // Is Asset
-        .map { $0.replacingOccurrences(of: ".\(extensionName)", with: "") } // Remove extension
-        .map { $0.components(separatedBy: "/").last ?? $0 }                 // Remove folder path
+func listAssets() -> [(asset: String, catalog: String)] {
+    
+    return assetCatalogPaths.flatMap { (catalog) -> [(asset: String, catalog: String)] in
+        
+        let extensionName = "imageset"
+        let enumerator = FileManager.default.enumerator(atPath: assetCatalogAbsolutePath)
+        return elementsInEnumerator(enumerator)
+            .filter { $0.hasSuffix(extensionName) }                             // Is Asset
+            .map { $0.replacingOccurrences(of: ".\(extensionName)", with: "") } // Remove extension
+            .map { $0.components(separatedBy: "/").last ?? $0 }                 // Remove folder path
+            .map { (asset: $0,catalog: catalog)}
+    }
 }
 
 
@@ -88,14 +97,12 @@ func localizedStrings(inStringFile: String) -> [String] {
     return localizedStrings
 }
 
-func listUsedAssetLiterals() -> [String] {
+func listUsedAssetLiterals() -> [(asset: String, references: [String])] {
     let enumerator = FileManager.default.enumerator(atPath:sourcePath)
-    print(sourcePath)
     return elementsInEnumerator(enumerator)
         .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
         .map { "\(sourcePath)/\($0)" }                             // Build file paths
         .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
-        .flatMap{$0}
         .flatMap{$0}                                                // Remove nil entries
         .map(localizedStrings)                                      // Find localizedStrings ocurrences
         .flatMap{$0}                                                // Flatten
@@ -108,11 +115,13 @@ let used = Set(listUsedAssetLiterals() + ignoredUnusedNames)
 
 
 // Generate Warnings for Unused Assets
+// (name, catalog)
 let unused = assets.subtracting(used)
 unused.forEach { print("\(assetCatalogAbsolutePath):: warning: [Asset Unused] \($0)") }
 
 
 // Generate Error for broken Assets
+// (name, [fileReferences])
 let broken = used.subtracting(assets)
 broken.forEach { print("\(assetCatalogAbsolutePath):: error: [Asset Missing] \($0)") }
 

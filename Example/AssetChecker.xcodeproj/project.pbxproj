@@ -15,6 +15,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		AFC739991FD86E9E00B5B103 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFC739981FD86E9E00B5B103 /* Media.xcassets */; };
 		BA341A14EF45F09231AACBFE /* Pods_AssetChecker_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F82D1638FD77B9042FE9A6 /* Pods_AssetChecker_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		63C1D8F311B1C327036F7550 /* AssetChecker.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = AssetChecker.podspec; path = ../AssetChecker.podspec; sourceTree = "<group>"; };
+		AFC739981FD86E9E00B5B103 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		B2F82D1638FD77B9042FE9A6 /* Pods_AssetChecker_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AssetChecker_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2AB56DA4BC27DE54F97B2E5 /* Pods-AssetChecker_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssetChecker_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-AssetChecker_Example/Pods-AssetChecker_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 		607FACD21AFB9204008FA782 /* Example for AssetChecker */ = {
 			isa = PBXGroup;
 			children = (
+				AFC739971FD86E8E00B5B103 /* Resources */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -140,6 +143,14 @@
 				0AA8D9DCF32BDBF252EC31A2 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		AFC739971FD86E8E00B5B103 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AFC739981FD86E9E00B5B103 /* Media.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D341C51AD021821B48CE184D /* Frameworks */ = {
@@ -252,6 +263,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFC739991FD86E9E00B5B103 /* Media.xcassets in Resources */,
 				5D8C437E1FC6CB2100DDF7D0 /* run in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
