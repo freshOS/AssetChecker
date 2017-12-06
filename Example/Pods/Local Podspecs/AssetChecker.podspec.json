@@ -19,5 +19,8 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "AssetChecker/Classes/**/*"
+  "source_files": "Classes/**/*",
+  "preserve_paths": [
+    "run"
+  ]
 }

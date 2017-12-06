@@ -170,12 +170,12 @@
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "AssetChecker_Example" */;
 			buildPhases = (
 				CD3F94CDB64297E52FBE5D36 /* [CP] Check Pods Manifest.lock */,
+				AFB748771FC625AF004F6E5A /* Run AssetChecker */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				04D22A6080DEC28F7F5015D6 /* [CP] Embed Pods Frameworks */,
 				9850B01F88F98464903A2867 /* [CP] Copy Pods Resources */,
-				AFB748771FC625AF004F6E5A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -350,18 +350,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AssetChecker_Example/Pods-AssetChecker_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AFB748771FC625AF004F6E5A /* ShellScript */ = {
+		AFB748771FC625AF004F6E5A /* Run AssetChecker */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run AssetChecker";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/AssetChecker/AssetChecker/Classes/main.swift";
+			shellScript = "${PODS_ROOT}/AssetChecker/run --catalog ${SRCROOT}/Resource/Images.xcassets";
 		};
 		CD3F94CDB64297E52FBE5D36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
