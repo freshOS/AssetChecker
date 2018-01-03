@@ -1,0 +1,35 @@
+#!/bin/sh
+
+#  Figure out where we're being called from
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# Path to Swift script file
+swiftFile="${DIR}/Classes/main.swift"
+
+SOURCE=$SRCROOT
+CATALOG=""
+
+while [[ $# > 0 ]]
+do
+key="$1"
+
+case $key in
+    -s|--source)
+    SOURCE="$2"
+    shift # past argument
+    ;;
+    -c|--catalog)
+    CATALOG="$2"
+    shift # past argument
+    ;;
+    *)
+
+    # unknown option
+    ;;
+esac
+shift # past argument or value
+done
+
+cmd="$swiftFile $SOURCE $CATALOG"
+echo $cmd
+$cmd

@@ -3,9 +3,32 @@
 import Foundation
 
 // Configure me \o/
-let sourcePath = "/Sources"
-let assetCatalogPath = "/Resources/Assets.xcassets"
+var sourcePathOption:String? = nil
+var assetCatalogPathOption:String? = nil
 let ignoredUnusedNames = [String]()
+
+for (index, arg) in CommandLine.arguments.enumerated() {
+    switch index {
+    case 1:
+        sourcePathOption = arg
+    case 2:
+        assetCatalogPathOption = arg
+    default:
+        break
+    }
+}
+
+guard let sourcePath = sourcePathOption else {
+    print("AssetChecker:: error: Source path was missing!")
+    exit(0)
+}
+
+guard let assetCatalogAbsolutePath = assetCatalogPathOption else {
+    print("AssetChecker:: error: Asset Catalog path was missing!")
+    exit(0)
+}
+
+print("Searching sources in \(sourcePath) for assets in \(assetCatalogAbsolutePath)")
 
 /* Put here the asset generating false positives, 
  For instance whne you build asset names at runtime
@@ -21,9 +44,6 @@ let ignoredUnusedNames = [
 
 // MARK : - End Of Configurable Section
 
-
-let assetCatalogAbsolutePath = FileManager.default.currentDirectoryPath + assetCatalogPath
-
 func elementsInEnumerator(_ enumerator: FileManager.DirectoryEnumerator?) -> [String] {
     var elements = [String]()
     while let e = enumerator?.nextObject() as? String {
@@ -31,7 +51,6 @@ func elementsInEnumerator(_ enumerator: FileManager.DirectoryEnumerator?) -> [St
     }
     return elements
 }
-
 
 
 // MARK: - List Assets
@@ -44,7 +63,6 @@ func listAssets() -> [String] {
         .map { $0.replacingOccurrences(of: ".\(extensionName)", with: "") } // Remove extension
         .map { $0.components(separatedBy: "/").last ?? $0 }                 // Remove folder path
 }
-
 
 
 // MARK: - List Used Assets in the codebase
@@ -71,11 +89,11 @@ func localizedStrings(inStringFile: String) -> [String] {
 }
 
 func listUsedAssetLiterals() -> [String] {
-    let sourcesPath = FileManager.default.currentDirectoryPath + sourcePath
-    let enumerator = FileManager.default.enumerator(atPath:sourcesPath)
+    let enumerator = FileManager.default.enumerator(atPath:sourcePath)
+    print(sourcePath)
     return elementsInEnumerator(enumerator)
         .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
-        .map { "\(sourcesPath)/\($0)" }                             // Build file paths
+        .map { "\(sourcePath)/\($0)" }                             // Build file paths
         .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
         .flatMap{$0}
         .flatMap{$0}                                                // Remove nil entries
@@ -85,8 +103,6 @@ func listUsedAssetLiterals() -> [String] {
 
 
 // MARK: - Begining of script
-
-
 let assets = Set(listAssets())
 let used = Set(listUsedAssetLiterals() + ignoredUnusedNames)
 
@@ -103,4 +119,3 @@ broken.forEach { print("\(assetCatalogAbsolutePath):: error: [Asset Missing] \($
 if broken.count > 0 {
     exit(1)
 }
-
