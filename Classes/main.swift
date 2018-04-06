@@ -72,8 +72,8 @@ func localizedStrings(inStringFile: String) -> [String] {
     let namePattern = "([\\w-]+)"
     let patterns = [
         "#imageLiteral\\(resourceName: \"\(namePattern)\"\\)", // Image Literal
-        "UIImage\\(named: \"\(namePattern)\"\\)", // Default UIImage call (Swift)
-        "UIImage imageNamed:\\@\"\(namePattern)\"", // Default UIImage call (Objective-C)
+        "UIImage\\(named:\\s*\"\(namePattern)\"\\)", // Default UIImage call (Swift)
+        "UIImage imageNamed:\\s*\\@\"\(namePattern)\"", // Default UIImage call 
         "\\<image name=\"\(namePattern)\".*", // Storyboard resources
         "R.image.\(namePattern)\\(\\)" //R.swift support
     ]
