@@ -69,11 +69,13 @@ func listAssets() -> [String] {
 
 func localizedStrings(inStringFile: String) -> [String] {
     var localizedStrings = [String]()
+    let namePattern = "([\\w-]+)"
     let patterns = [
-        "#imageLiteral\\(resourceName: \"([\\w-]+)\"\\)", // Image Literal
-        "UIImage\\(named: \"(\\w+)\"\\)", // Default UIImage call
-        "\\<image name=\"([\\w-]+)\".*", // Storyboard resources
-        "R.image.([\\w-]+)\\(\\)" //R.swift support
+        "#imageLiteral\\(resourceName: \"\(namePattern)\"\\)", // Image Literal
+        "UIImage\\(named:\\s*\"\(namePattern)\"\\)", // Default UIImage call (Swift)
+        "UIImage imageNamed:\\s*\\@\"\(namePattern)\"", // Default UIImage call 
+        "\\<image name=\"\(namePattern)\".*", // Storyboard resources
+        "R.image.\(namePattern)\\(\\)" //R.swift support
     ]
     for p in patterns {
         let regex = try? NSRegularExpression(pattern: p, options: [])
