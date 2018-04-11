@@ -93,14 +93,26 @@ func localizedStrings(inStringFile: String) -> [String] {
 func listUsedAssetLiterals() -> [String] {
     let enumerator = FileManager.default.enumerator(atPath:sourcePath)
     print(sourcePath)
-    return elementsInEnumerator(enumerator)
-        .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
-        .map { "\(sourcePath)/\($0)" }                             // Build file paths
-        .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
-        .flatMap{$0}
-        .flatMap{$0}                                                // Remove nil entries
-        .map(localizedStrings)                                      // Find localizedStrings ocurrences
-        .flatMap{$0}                                                // Flatten
+    
+    #if swift(>=4.1)
+        return elementsInEnumerator(enumerator)
+            .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
+            .map { "\(sourcePath)/\($0)" }                              // Build file paths
+            .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
+            .compactMap{$0}
+            .compactMap{$0}                                             // Remove nil entries
+            .map(localizedStrings)                                      // Find localizedStrings ocurrences
+            .flatMap{$0}                                                // Flatten
+    #else
+        return elementsInEnumerator(enumerator)
+            .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
+            .map { "\(sourcePath)/\($0)" }                              // Build file paths
+            .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
+            .flatMap{$0}
+            .flatMap{$0}                                                // Remove nil entries
+            .map(localizedStrings)                                      // Find localizedStrings ocurrences
+            .flatMap{$0}                                                // Flatten
+    #endif
 }
 
 
