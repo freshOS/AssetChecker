@@ -5,7 +5,7 @@
 ![Platform: iOS](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)
 [![codebeat badge](https://codebeat.co/badges/7c6098dd-e48e-4283-a04e-2b74aeb80a2e)](https://codebeat.co/projects/github-com-s4cha-assetchecker)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/Localize/blob/master/LICENSE)
-[![Release version](https://img.shields.io/badge/release-0.1-blue.svg)]()
+[![GitHub tag](https://img.shields.io/github/release/freshos/AssetChecker.svg)](https://github.com/freshOS/AssetChecker/releases)
 
 *AssetChecker* is a tiny run script that keeps your `Assets.xcassets` files clean and emits warnings when something is suspicious.
 
@@ -51,8 +51,9 @@ with arguments:
 If you didn't use Cocoapods, use the path of where you copied AssetChecker script:
 
 ```shell
-${SRCROOT}/{PATH_TO_THE_SCRIPT}}/AssetChecker.swift
+${SRCROOT}/{PATH_TO_THE_SCRIPT}/AssetChecker.swift ${SRCROOT}/Sources ${SRCROOT}/Resources/Images.xcassets
 ```
+In this example your source files are located in `/Sources` and your Asset catalog is in `/Resources/Images.xcassets`.
 
 And configure top section of the script :
 ```swift
@@ -63,6 +64,22 @@ let ignoredUnusedNames = [String]()
 ```
 Run and Enjoy \o/
 
+## False positives
+Sometimes you're building the asset names dynamically so there is no way for AssetChecker to find out statically by looking at the codebase.
+
+In this case the script will emit a **false positive**.
+
+You can manually declare these false positives so that they get ignored !
+
+Set the `ignoredUnusedNames` variable in the script file like so:
+
+```swift
+let ignoredUnusedNames = [
+    "voteEN",
+    "voteES",
+    "voteFR"
+]
+```
 
 ## Author
 
@@ -79,7 +96,7 @@ AssetChecker is available under the MIT license. See [LICENSE](https://github.co
 
 
 ### Backers
-Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :) 
+Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :)
 
 <a href="https://opencollective.com/freshos/backer/0/website" target="_blank"><img src="https://opencollective.com/freshos/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/freshos/backer/1/website" target="_blank"><img src="https://opencollective.com/freshos/backer/1/avatar.svg"></a>
@@ -113,7 +130,7 @@ Like the project? Offer coffee or support us with a monthly donation and help us
 <a href="https://opencollective.com/freshos/backer/29/website" target="_blank"><img src="https://opencollective.com/freshos/backer/29/avatar.svg"></a>
 
 ### Sponsors
-Become a sponsor and get your logo on our README on Github with a link to your site :) 
+Become a sponsor and get your logo on our README on Github with a link to your site :)
 
 <a href="https://opencollective.com/freshos/sponsor/0/website" target="_blank"><img src="https://opencollective.com/freshos/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/freshos/sponsor/1/website" target="_blank"><img src="https://opencollective.com/freshos/sponsor/1/avatar.svg"></a>
