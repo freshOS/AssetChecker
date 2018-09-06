@@ -113,7 +113,7 @@ let usedAssetNames = Set(usedAssets.keys + ignoredUnusedNames)
 // Generate Warnings for Unused Assets
 // (name, catalog)
 let unused = availableAssets.filter({ (asset, catalog) -> Bool in !usedAssetNames.contains(asset) })
-unused.forEach { print("\($0):: warning: [Asset Unused] \($0) in \($1)") }
+unused.forEach { print("\($1):: warning: [Asset Unused] \($0)") }
 // unused asset <name> found in <catalog>
 
 // Generate Error for broken Assets
@@ -122,7 +122,7 @@ let broken = usedAssets.filter { (assetName, references) -> Bool in
     !availableAssetNames.contains(assetName)
 }
 
-broken.forEach { print("\($0):: error: [Asset Missing] \($0) found in files \($1)") }
+broken.forEach { print("\($1.first ?? $0):: error: [Asset Missing] \($0)") }
 // asset <name> used in file <filename> wasn't found!
 
 if broken.count > 0 {
