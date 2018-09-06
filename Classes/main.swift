@@ -4,15 +4,12 @@ import Foundation
 
 // Configure me \o/
 var sourcePathOption:String? = nil
-var assetCatalogPathOption:String? = nil
 let ignoredUnusedNames = [String]()
 
 for (index, arg) in CommandLine.arguments.enumerated() {
     switch index {
     case 1:
         sourcePathOption = arg
-    case 2:
-        assetCatalogPathOption = arg
     default:
         break
     }
@@ -22,27 +19,6 @@ guard let sourcePath = sourcePathOption else {
     print("AssetChecker:: error: Source path was missing!")
     exit(0)
 }
-
-guard let assetCatalogAbsolutePath = assetCatalogPathOption else {
-    print("AssetChecker:: error: Asset Catalog path was missing!")
-    exit(0)
-}
-
-print("Searching sources in \(sourcePath) for assets in \(assetCatalogAbsolutePath)")
-
-/* Put here the asset generating false positives, 
- For instance whne you build asset names at runtime
-let ignoredUnusedNames = [
-    "IconArticle",
-    "IconMedia",
-    "voteEN",
-    "voteES",
-    "voteFR"
-] 
-*/
-
-
-// MARK : - End Of Configurable Section
 
 func elementsInEnumerator(_ enumerator: FileManager.DirectoryEnumerator?) -> [String] {
     var elements = [String]()
@@ -64,7 +40,7 @@ func listAssets() -> [(asset: String, catalog: String)] {
     return assetCatalogPaths.flatMap { (catalog) -> [(asset: String, catalog: String)] in
         
         let extensionName = "imageset"
-        let enumerator = FileManager.default.enumerator(atPath: assetCatalogAbsolutePath)
+        let enumerator = FileManager.default.enumerator(atPath: catalog)
         return elementsInEnumerator(enumerator)
             .filter { $0.hasSuffix(extensionName) }                             // Is Asset
             .map { $0.replacingOccurrences(of: ".\(extensionName)", with: "") } // Remove extension
@@ -97,33 +73,57 @@ func localizedStrings(inStringFile: String) -> [String] {
     return localizedStrings
 }
 
-func listUsedAssetLiterals() -> [(asset: String, references: [String])] {
+func listUsedAssetLiterals() -> [String: [String]]  {
     let enumerator = FileManager.default.enumerator(atPath:sourcePath)
-    return elementsInEnumerator(enumerator)
+    
+    var assetUsageMap: [String: [String]] = [:]
+    
+    let files = elementsInEnumerator(enumerator)
         .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
-        .map { "\(sourcePath)/\($0)" }                             // Build file paths
-        .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
-        .flatMap{$0}                                                // Remove nil entries
-        .map(localizedStrings)                                      // Find localizedStrings ocurrences
-        .flatMap{$0}                                                // Flatten
+    
+    for filename in files {
+        // Build file paths
+        let filepath = "\(sourcePath)/\(filename)"
+        
+        // Get file contents
+        if let fileContents = try? String(contentsOfFile: filepath, encoding: .utf8) {
+            // Find occurrences of asset names
+            let references = localizedStrings(inStringFile: fileContents)
+            
+            // assemble the map
+            for asset in references {
+                let updatedReferences = assetUsageMap[asset] ?? []
+                assetUsageMap[asset] = updatedReferences + [filename]
+            }
+        }
+    }
+    
+    return assetUsageMap
 }
 
 
 // MARK: - Begining of script
-let assets = Set(listAssets())
-let used = Set(listUsedAssetLiterals() + ignoredUnusedNames)
+
+let availableAssets = listAssets()
+let availableAssetNames = Set(availableAssets.map{$0.asset} )
+let usedAssets = listUsedAssetLiterals()
+let usedAssetNames = Set(usedAssets.keys + ignoredUnusedNames)
 
 
 // Generate Warnings for Unused Assets
 // (name, catalog)
-let unused = assets.subtracting(used)
-unused.forEach { print("\(assetCatalogAbsolutePath):: warning: [Asset Unused] \($0)") }
-
+let unused = availableAssets.filter({ (asset, catalog) -> Bool in !usedAssetNames.contains(asset) })
+unused.forEach { print("\($0):: warning: [Asset Unused] \($0) in \($1)") }
+// unused asset <name> found in <catalog>
 
 // Generate Error for broken Assets
 // (name, [fileReferences])
-let broken = used.subtracting(assets)
-broken.forEach { print("\(assetCatalogAbsolutePath):: error: [Asset Missing] \($0)") }
+let broken = usedAssets.filter { (assetName, references) -> Bool in
+    !availableAssetNames.contains(assetName)
+}
+
+broken.forEach { print("\($0):: error: [Asset Missing] \($0) found in files \($1)") }
+// asset <name> used in file <filename> wasn't found!
 
 if broken.count > 0 {
     exit(1)

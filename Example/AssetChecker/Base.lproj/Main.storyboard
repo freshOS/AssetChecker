@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.9"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -24,11 +24,14 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dcL-fK-p7R">
                                 <rect key="frame" x="30" y="50" width="315" height="587"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vXm-mP-bVU">
-                                        <rect key="frame" x="0.0" y="0.0" width="315" height="128"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="icon_green" translatesAutoresizingMaskIntoConstraints="NO" id="vXm-mP-bVU">
+                                        <rect key="frame" x="0.0" y="0.0" width="315" height="523"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vDD-em-TGY">
-                                        <rect key="frame" x="0.0" y="128" width="315" height="459"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="icon_blue" translatesAutoresizingMaskIntoConstraints="NO" id="vDD-em-TGY">
+                                        <rect key="frame" x="0.0" y="523" width="315" height="48"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="icon_turquoise" translatesAutoresizingMaskIntoConstraints="NO" id="ulC-Sy-M6n">
+                                        <rect key="frame" x="0.0" y="571" width="315" height="16"/>
                                     </imageView>
                                 </subviews>
                             </stackView>
@@ -46,4 +49,9 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_blue" width="48" height="48"/>
+        <image name="icon_green" width="48" height="48"/>
+        <image name="icon_turquoise" width="16" height="16"/>
+    </resources>
 </document>
