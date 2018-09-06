@@ -1,0 +1,16 @@
+PODS:
+  - AssetChecker (0.1.0)
+
+DEPENDENCIES:
+  - AssetChecker (from `../`)
+
+EXTERNAL SOURCES:
+  AssetChecker:
+    :path: ../
+
+SPEC CHECKSUMS:
+  AssetChecker: a62ab6cb403cdb72b88593bc210c8d77f320a768
+
+PODFILE CHECKSUM: debfa0ba5af45b711385df9b78bd2cbbfc659a33
+
+COCOAPODS: 1.4.0.beta.2
