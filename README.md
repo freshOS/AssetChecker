@@ -18,20 +18,31 @@ Because **Image Assets** files are not safe, if an asset is ever deleted, nothin
 
 AssetChecker is part of [freshOS](http://freshos.org) iOS toolset. Try it in an example App ! <a class="github-button" href="https://github.com/freshOS/StarterProject/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download freshOS/StarterProject on GitHub">Download Starter Project</a>
 
-## How
-By using a **script** running automatically, you have a **safety net** that makes using Asset Catalog a breeze.
-
 ## What
+By using a **script** running automatically, you have a **safety net** that makes using Asset Catalog a breeze.  
 
-Automatically (On build)
-  - Raises Errors for **Missing Assets**
-  - Raises warnings for **Unused Assets**
+## How
+The script will automatically find the asset catalogs ( `.xcassets`) in your project and serarch your source code to determine if there are errors with them.  It searches for the following types of files:
+- xibs
+- storyboards
+- swift files
+- Obj-C (.m) files
 
+For these types of references:
+- `#imageLiteral(resourceName: )`
+- `UIImage(named: )` (swift)
+- `[UIImage imageNamed: ]` (ObjC)
+- `R.image.name()` (supports [R.Swift](https://github.com/mac-cain13/R.swift))
+
+Then the script will automatically (On build)
+  - Raise Errors for **Missing Assets**
+  - Raise warnings for **Unused Assets**
+ 
 ## Installation
 
 Installation available via Cocoapods.  Add the following to your Podfile:
 ```shell
-pod 'AssetChecker', :git => 'https://github.com/joeboyscout04/AssetChecker.git', :branch => 'pods'
+pod 'AssetChecker'
 ```
 Or copy the script into your project.
 
@@ -39,27 +50,25 @@ Add the following `Run Script` in XCode, this will run the script at every build
 If you installed via Cocoapods, you can use the following script:
 
 ```shell
-${PODS_ROOT}/AssetChecker/run --catalog ${SRCROOT}/Resource/Images.xcassets
+${PODS_ROOT}/AssetChecker/run
 ```
 
 with arguments:
 ```
---catalog Absolute path to your Asset catalog (required)
---source Absolute path to your source directory.  Defaults to $SRCROOT
+--source (optional) Absolute path to your source directory.  Defaults to $SRCROOT
 ```
 
 If you didn't use Cocoapods, use the path of where you copied AssetChecker script:
 
 ```shell
-${SRCROOT}/{PATH_TO_THE_SCRIPT}/AssetChecker.swift ${SRCROOT}/Sources ${SRCROOT}/Resources/Images.xcassets
+${SRCROOT}/{PATH_TO_THE_SCRIPT}/AssetChecker.swift ${SRCROOT}/Sources
 ```
-In this example your source files are located in `/Sources` and your Asset catalog is in `/Resources/Images.xcassets`.
+In this example your source files are located in `/Sources`.
 
 And configure top section of the script :
 ```swift
 // Configure me \o/
 let sourcePath = "/Sources"
-let assetCatalogPath = "/Resources/Assets.xcassets"
 let ignoredUnusedNames = [String]()
 ```
 Run and Enjoy \o/
