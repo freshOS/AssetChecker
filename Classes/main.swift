@@ -3,8 +3,9 @@
 import Foundation
 
 // Configure me \o/
-var sourcePathOption:String? = nil
-let ignoredUnusedNames = [String]()
+var sourcePathOption:String?
+var ignoredUnusedNames = [String]()
+var catalogPath: String?
 
 /* Put here the asset generating false positives,
  For instance whne you build asset names at runtime
@@ -20,14 +21,34 @@ let ignoredUnusedNames = [
 // MARK : - End Of Configurable Section
 
 /// Attempt to fetch source path from run script arguments
-if sourcePathOption == nil {
-    for (index, arg) in CommandLine.arguments.enumerated() {
-        switch index {
-        case 1:
-            sourcePathOption = arg
-        default:
-            break
+// command line arguments passed as "source:/path/to"
+struct CommandLineArg {
+    let arg: String
+    let value: String?
+}
+
+let commandLineArguments = CommandLine.arguments.map { clArg -> CommandLineArg in
+    let splitArgs = clArg.split(separator: ":")
+    let value = splitArgs.indices.contains(1) ? String(splitArgs[1]) : nil
+    return CommandLineArg(arg: String(splitArgs[0]), value: value)
+}
+
+for arg in commandLineArguments {
+    switch arg.arg {
+    case "source":
+        if let sourcePath = arg.value, sourcePathOption == nil {
+            sourcePathOption = sourcePath
         }
+    case "catalog":
+        if let catelog = arg.value, catalogPath == nil {
+            catalogPath = catelog
+        }
+    case "ignore":
+        if let ignoreAssetsNames = arg.value, ignoredUnusedNames.isEmpty {
+            ignoredUnusedNames = ignoreAssetsNames.split(separator: ",").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        }
+    default:
+        break
     }
 }
 
@@ -45,7 +66,15 @@ private func elementsInEnumerator(_ enumerator: FileManager.DirectoryEnumerator?
 }
 
 /// Search for asset catalogs within the source path
-let assetCatalogPaths = elementsInEnumerator(FileManager.default.enumerator(atPath: sourcePath)).filter { $0.hasSuffix(".xcassets") }
+
+let assetCatalogPaths: [String] = {
+    if let providedCatalog = catalogPath {
+        return [providedCatalog]
+    } else {
+        // detect automatically
+        return elementsInEnumerator(FileManager.default.enumerator(atPath: sourcePath)).filter { $0.hasSuffix(".xcassets") }
+    }
+}()
 
 print("Searching sources in \(sourcePath) for assets in \(assetCatalogPaths)")
 
@@ -127,7 +156,7 @@ let usedAssets = listUsedAssetLiterals()
 let usedAssetNames = Set(usedAssets.keys + ignoredUnusedNames)
 
 // Generate Warnings for Unused Assets
-let unused = availableAssets.filter({ (asset, catalog) -> Bool in !usedAssetNames.contains(asset) })
+let unused = availableAssets.filter({ (asset, catalog) -> Bool in !usedAssetNames.contains(asset) && !ignoredUnusedNames.contains(asset) })
 unused.forEach { print("\($1):: warning: [Asset Unused] \($0)") }
 
 // Generate Error for broken Assets

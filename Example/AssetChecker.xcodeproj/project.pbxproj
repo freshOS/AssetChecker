@@ -375,7 +375,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/AssetChecker/run";
+			shellScript = "${PODS_ROOT}/AssetChecker/run --ignore \"icon_red\"\n";
 		};
 		CD3F94CDB64297E52FBE5D36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
