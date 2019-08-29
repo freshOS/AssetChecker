@@ -4,7 +4,7 @@ import Foundation
 
 // Configure me \o/
 var sourcePathOption:String? = nil
-var assetCatalogPathOption:String? = nil
+var assetCatalogPathOptions:[String]? = nil
 let ignoredUnusedNames = [String]()
 
 for (index, arg) in CommandLine.arguments.enumerated() {
@@ -12,7 +12,7 @@ for (index, arg) in CommandLine.arguments.enumerated() {
     case 1:
         sourcePathOption = arg
     case 2:
-        assetCatalogPathOption = arg
+        assetCatalogPathOptions = arg.components(separatedBy: ",")
     default:
         break
     }
@@ -23,12 +23,12 @@ guard let sourcePath = sourcePathOption else {
     exit(0)
 }
 
-guard let assetCatalogAbsolutePath = assetCatalogPathOption else {
+guard let assetCatalogAbsolutePaths = assetCatalogPathOptions else {
     print("AssetChecker:: error: Asset Catalog path was missing!")
     exit(0)
 }
 
-print("Searching sources in \(sourcePath) for assets in \(assetCatalogAbsolutePath)")
+print("Searching sources in \(sourcePath) for assets in \(assetCatalogAbsolutePaths)")
 
 /* Put here the asset generating false positives, 
  For instance whne you build asset names at runtime
@@ -55,13 +55,26 @@ func elementsInEnumerator(_ enumerator: FileManager.DirectoryEnumerator?) -> [St
 
 // MARK: - List Assets
 
-func listAssets() -> [String] {
+func listAssets(assetCatalogAbsolutePath: String) -> [String] {
     let extensionName = "imageset"
     let enumerator = FileManager.default.enumerator(atPath: assetCatalogAbsolutePath)
     return elementsInEnumerator(enumerator)
         .filter { $0.hasSuffix(extensionName) }                             // Is Asset
         .map { $0.replacingOccurrences(of: ".\(extensionName)", with: "") } // Remove extension
         .map { $0.components(separatedBy: "/").last ?? $0 }                 // Remove folder path
+}
+
+// MARK: Dictionary with Asset as a key with a Path for it as a value
+func readAssetsMap() -> [String: String] {
+    var dictionary: [String: String] = [:]
+    
+    assetCatalogAbsolutePaths.forEach { (path) in
+        listAssets(assetCatalogAbsolutePath: path).forEach({ (asset) in
+            dictionary[asset] = path
+        })
+    }
+    
+    return dictionary
 }
 
 
@@ -117,18 +130,23 @@ func listUsedAssetLiterals() -> [String] {
 
 
 // MARK: - Begining of script
-let assets = Set(listAssets())
+
 let used = Set(listUsedAssetLiterals() + ignoredUnusedNames)
 
+let assetsMap = readAssetsMap()
+let allAssets = assetsMap.keys
+
+let assets = Set(allAssets)
 
 // Generate Warnings for Unused Assets
 let unused = assets.subtracting(used)
-unused.forEach { print("\(assetCatalogAbsolutePath):: warning: [Asset Unused] \($0)") }
+print(assetsMap)
 
+unused.forEach { print("\(assetsMap[$0]!):: warning: [Asset Unused] \($0)") }
 
 // Generate Error for broken Assets
 let broken = used.subtracting(assets)
-broken.forEach { print("\(assetCatalogAbsolutePath):: error: [Asset Missing] \($0)") }
+broken.forEach { print("error: [Asset Missing] \($0)") }
 
 if broken.count > 0 {
     exit(1)

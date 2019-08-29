@@ -15,6 +15,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		6A0B84EC2318211200B253A0 /* AnotherAssetCatalog.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A0B84EB2318211200B253A0 /* AnotherAssetCatalog.xcassets */; };
 		BA341A14EF45F09231AACBFE /* Pods_AssetChecker_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F82D1638FD77B9042FE9A6 /* Pods_AssetChecker_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		63C1D8F311B1C327036F7550 /* AssetChecker.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = AssetChecker.podspec; path = ../AssetChecker.podspec; sourceTree = "<group>"; };
+		6A0B84EB2318211200B253A0 /* AnotherAssetCatalog.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AnotherAssetCatalog.xcassets; sourceTree = "<group>"; };
 		B2F82D1638FD77B9042FE9A6 /* Pods_AssetChecker_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AssetChecker_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2AB56DA4BC27DE54F97B2E5 /* Pods-AssetChecker_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssetChecker_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-AssetChecker_Example/Pods-AssetChecker_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,6 +102,7 @@
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				6A0B84EB2318211200B253A0 /* AnotherAssetCatalog.xcassets */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for AssetChecker";
@@ -233,6 +236,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -253,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D8C437E1FC6CB2100DDF7D0 /* run in Resources */,
+				6A0B84EC2318211200B253A0 /* AnotherAssetCatalog.xcassets in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
@@ -362,7 +367,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/AssetChecker/run --catalog ${SRCROOT}/Resource/Images.xcassets";
+			shellScript = "${PODS_ROOT}/AssetChecker/run --catalog ${SRCROOT}/AssetChecker/Images.xcassets,${SRCROOT}/AssetChecker/AnotherAssetCatalog.xcassets\n";
 		};
 		CD3F94CDB64297E52FBE5D36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
