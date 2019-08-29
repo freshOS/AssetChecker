@@ -8,6 +8,7 @@ swiftFile="${DIR}/Classes/main.swift"
 
 SOURCE=$SRCROOT
 CATALOG=""
+IGNORE=""
 
 while [[ $# > 0 ]]
 do
@@ -22,6 +23,10 @@ case $key in
     CATALOG="$2"
     shift # past argument
     ;;
+    -i|--ignore)
+    IGNORE="$2"
+    shift # past argument
+    ;;
     *)
 
     # unknown option
@@ -30,6 +35,6 @@ esac
 shift # past argument or value
 done
 
-cmd="$swiftFile $SOURCE $CATALOG"
+cmd="$swiftFile source:$SOURCE catalog:$CATALOG ignore:$IGNORE"
 echo $cmd
 $cmd

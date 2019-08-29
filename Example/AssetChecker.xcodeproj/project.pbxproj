@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3333CADC9CDF4D6C0279EAF6 /* Pods_AssetChecker_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF5C510348421D31756E79F /* Pods_AssetChecker_Tests.framework */; };
+		5D7631B4214170BA0017A471 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D7631B3214170BA0017A471 /* Media.xcassets */; };
 		5D8C437E1FC6CB2100DDF7D0 /* run in Resources */ = {isa = PBXBuildFile; fileRef = 5D8C437D1FC6CB2100DDF7D0 /* run */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -35,6 +36,7 @@
 		4E3F248C6D57FAF6F94A24BC /* Pods-AssetChecker_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssetChecker_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AssetChecker_Tests/Pods-AssetChecker_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		5512D041F5A3EF8493D7505C /* Pods-AssetChecker_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssetChecker_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AssetChecker_Example/Pods-AssetChecker_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		58816321B24F6A6272E52BB1 /* Pods-AssetChecker_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssetChecker_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AssetChecker_Tests/Pods-AssetChecker_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		5D7631B3214170BA0017A471 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		5D8C437D1FC6CB2100DDF7D0 /* run */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = run; path = ../run; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* AssetChecker_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssetChecker_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,6 +73,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D7631B2214170A70017A471 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5D7631B3214170BA0017A471 /* Media.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +110,7 @@
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				5D7631B2214170A70017A471 /* Resources */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for AssetChecker";
@@ -219,6 +230,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = JEH7PW263G;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
@@ -252,6 +264,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D7631B4214170BA0017A471 /* Media.xcassets in Resources */,
 				5D8C437E1FC6CB2100DDF7D0 /* run in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
@@ -362,7 +375,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/AssetChecker/run --catalog ${SRCROOT}/Resource/Images.xcassets";
+			shellScript = "${PODS_ROOT}/AssetChecker/run --ignore \"icon_red\"\n";
 		};
 		CD3F94CDB64297E52FBE5D36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -536,6 +549,7 @@
 			baseConfigurationReference = 5512D041F5A3EF8493D7505C /* Pods-AssetChecker_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JEH7PW263G;
 				INFOPLIST_FILE = AssetChecker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -551,6 +565,7 @@
 			baseConfigurationReference = C2AB56DA4BC27DE54F97B2E5 /* Pods-AssetChecker_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JEH7PW263G;
 				INFOPLIST_FILE = AssetChecker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;

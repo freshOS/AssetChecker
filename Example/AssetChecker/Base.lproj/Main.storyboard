@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,14 +21,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dcL-fK-p7R">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="dcL-fK-p7R">
                                 <rect key="frame" x="30" y="50" width="315" height="587"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vXm-mP-bVU">
-                                        <rect key="frame" x="0.0" y="0.0" width="315" height="128"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_green" translatesAutoresizingMaskIntoConstraints="NO" id="vXm-mP-bVU">
+                                        <rect key="frame" x="0.0" y="0.0" width="315" height="195.5"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vDD-em-TGY">
-                                        <rect key="frame" x="0.0" y="128" width="315" height="459"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_blue" translatesAutoresizingMaskIntoConstraints="NO" id="vDD-em-TGY">
+                                        <rect key="frame" x="0.0" y="195.5" width="315" height="196"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_turquoise" translatesAutoresizingMaskIntoConstraints="NO" id="ulC-Sy-M6n">
+                                        <rect key="frame" x="0.0" y="391.5" width="315" height="195.5"/>
                                     </imageView>
                                 </subviews>
                             </stackView>
@@ -41,9 +44,19 @@
                             <constraint firstItem="dcL-fK-p7R" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="hvn-lq-suh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageViewOne" destination="vXm-mP-bVU" id="YIv-E6-U3L"/>
+                        <outlet property="imageViewThree" destination="ulC-Sy-M6n" id="ezi-jN-g87"/>
+                        <outlet property="imageViewTwo" destination="vDD-em-TGY" id="HyR-HH-v5r"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_blue" width="48" height="48"/>
+        <image name="icon_green" width="48" height="48"/>
+        <image name="icon_turquoise" width="16" height="16"/>
+    </resources>
 </document>
