@@ -7,17 +7,6 @@ var sourcePathOption:String?
 var ignoredUnusedNames = [String]()
 var catalogPath: String?
 
-/* Put here the asset generating false positives,
- For instance whne you build asset names at runtime
-let ignoredUnusedNames = [
-    "IconArticle",
-    "IconMedia",
-    "voteEN",
-    "voteES",
-    "voteFR"
-]
-*/
-
 // MARK : - End Of Configurable Section
 
 /// Attempt to fetch source path from run script arguments
