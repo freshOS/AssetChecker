@@ -1,6 +1,0 @@
-framework module Pods_AssetChecker_Example {
-  umbrella header "Pods-AssetChecker_Example-umbrella.h"
-
-  export *
-  module * { export * }
-}
