@@ -31,7 +31,7 @@ Automatically (On build)
 
 Installation available via Cocoapods.  Add the following to your Podfile:
 ```shell
-pod 'AssetChecker', :git => 'https://github.com/joeboyscout04/AssetChecker.git', :branch => 'pods'
+pod 'AssetChecker', :git => 'https://github.com/freshOS/AssetChecker.git'
 ```
 Or copy the script into your project.
 
