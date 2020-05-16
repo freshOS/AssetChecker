@@ -17,6 +17,9 @@ class ViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        UIImage(named: "NotExistingImage")
+        UIImage(named: "NotExistingImageInAnotherAssetCatalog")
+        UIImage(named: "UsedImageInAnotherAssetCatalog")
         // Dispose of any resources that can be recreated.
     }
 
