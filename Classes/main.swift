@@ -154,7 +154,7 @@ func listColorAssets() -> [String] {
         .map { $0.components(separatedBy: "/").last ?? $0 }                 // Remove folder path
 }
 
-func colorsStrings(inStringFile: String) -> [String] {
+func colorStrings(inStringFile: String) -> [String] {
     var localizedStrings = [String]()
     let namePattern = "([\\w-]+)"
     let patterns = [
@@ -177,7 +177,7 @@ func colorsStrings(inStringFile: String) -> [String] {
     return localizedStrings
 }
 
-func listUsedColorsAssetLiterals() -> [String] {
+func listUsedColorAssetLiterals() -> [String] {
     let enumerator = FileManager.default.enumerator(atPath:sourcePath)
     print(sourcePath)
     
@@ -186,18 +186,16 @@ func listUsedColorsAssetLiterals() -> [String] {
             .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
             .map { "\(sourcePath)/\($0)" }                              // Build file paths
             .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
-            .compactMap{$0}
             .compactMap{$0}                                             // Remove nil entries
-            .map(colorsStrings)                                      // Find localizedStrings ocurrences
+            .map(colorStrings)                                      // Find localizedStrings ocurrences
             .flatMap{$0}                                                // Flatten
     #else
         return elementsInEnumerator(enumerator)
             .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
             .map { "\(sourcePath)/\($0)" }                              // Build file paths
             .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
-            .flatMap{$0}
             .flatMap{$0}                                                // Remove nil entries
-            .map(colorsStrings)                                      // Find localizedStrings ocurrences
+            .map(colorStrings)                                      // Find localizedStrings ocurrences
             .flatMap{$0}                                                // Flatten
     #endif
 }
@@ -205,7 +203,7 @@ func listUsedColorsAssetLiterals() -> [String] {
 print("Searching colors in \(sourcePath) for color assets in \(colorAssetCatalogAbsolutePath)")
 
 let colors = Set(listColorAssets())
-let usedColors = Set(listUsedColorsAssetLiterals())
+let usedColors = Set(listUsedColorAssetLiterals())
 
 // Generate Warnings for Unused Assets
 let unusedColors = colors.subtracting(usedColors)
