@@ -5,6 +5,7 @@ import Foundation
 // Configure me \o/
 var sourcePathOption:String? = nil
 var assetCatalogPathOption:String? = nil
+var colorAssetCatalogPathOption:String? = nil
 let ignoredUnusedNames = [String]()
 
 for (index, arg) in CommandLine.arguments.enumerated() {
@@ -13,6 +14,9 @@ for (index, arg) in CommandLine.arguments.enumerated() {
         sourcePathOption = arg
     case 2:
         assetCatalogPathOption = arg
+        colorAssetCatalogPathOption = arg
+    case 3:
+        colorAssetCatalogPathOption = arg
     default:
         break
     }
@@ -25,6 +29,11 @@ guard let sourcePath = sourcePathOption else {
 
 guard let assetCatalogAbsolutePath = assetCatalogPathOption else {
     print("AssetChecker:: error: Asset Catalog path was missing!")
+    exit(0)
+}
+
+guard let colorAssetCatalogAbsolutePath = colorAssetCatalogPathOption else {
+    print("AssetChecker:: error: Color Asset Catalog path was missing!")
     exit(0)
 }
 
@@ -131,5 +140,79 @@ let broken = used.subtracting(assets)
 broken.forEach { print("\(assetCatalogAbsolutePath):: error: [Asset Missing] \($0)") }
 
 if broken.count > 0 {
+    exit(1)
+}
+
+
+// MARK: Colors
+func listColorAssets() -> [String] {
+    let extensionName = "colorset"
+    let enumerator = FileManager.default.enumerator(atPath: colorAssetCatalogAbsolutePath)
+    return elementsInEnumerator(enumerator)
+        .filter { $0.hasSuffix(extensionName) }                             // Is Asset
+        .map { $0.replacingOccurrences(of: ".\(extensionName)", with: "") } // Remove extension
+        .map { $0.components(separatedBy: "/").last ?? $0 }                 // Remove folder path
+}
+
+func colorStrings(inStringFile: String) -> [String] {
+    var localizedStrings = [String]()
+    let namePattern = "([\\w-]+)"
+    let patterns = [
+        "#colorLiteral\\(resourceName: \"\(namePattern)\"\\)", // Image Literal
+        "UIColor\\(named:\\s*\"\(namePattern)\"\\)", // Default UIImage call (Swift)
+        "UIColor colorNamed:\\s*\\@\"\(namePattern)\"", // Default UIImage call
+        "\\<namedColor name=\"\(namePattern)\".*", // Storyboard resources
+        "R.color.\(namePattern)\\(\\)" //R.swift support
+    ]
+    for p in patterns {
+        let regex = try? NSRegularExpression(pattern: p, options: [])
+        let range = NSRange(location:0, length:(inStringFile as NSString).length)
+        regex?.enumerateMatches(in: inStringFile,options: [], range: range) { result, _, _ in
+            if let r = result {
+                let value = (inStringFile as NSString).substring(with:r.range(at: 1))
+                localizedStrings.append(value)
+            }
+        }
+    }
+    return localizedStrings
+}
+
+func listUsedColorAssetLiterals() -> [String] {
+    let enumerator = FileManager.default.enumerator(atPath:sourcePath)
+    print(sourcePath)
+    
+    #if swift(>=4.1)
+        return elementsInEnumerator(enumerator)
+            .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
+            .map { "\(sourcePath)/\($0)" }                              // Build file paths
+            .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
+            .compactMap{$0}                                             // Remove nil entries
+            .map(colorStrings)                                      // Find localizedStrings ocurrences
+            .flatMap{$0}                                                // Flatten
+    #else
+        return elementsInEnumerator(enumerator)
+            .filter { $0.hasSuffix(".m") || $0.hasSuffix(".swift") || $0.hasSuffix(".xib") || $0.hasSuffix(".storyboard") }    // Only Swift and Obj-C files
+            .map { "\(sourcePath)/\($0)" }                              // Build file paths
+            .map { try? String(contentsOfFile: $0, encoding: .utf8)}    // Get file contents
+            .flatMap{$0}                                                // Remove nil entries
+            .map(colorStrings)                                      // Find localizedStrings ocurrences
+            .flatMap{$0}                                                // Flatten
+    #endif
+}
+
+print("Searching colors in \(sourcePath) for color assets in \(colorAssetCatalogAbsolutePath)")
+
+let colors = Set(listColorAssets())
+let usedColors = Set(listUsedColorAssetLiterals())
+
+// Generate Warnings for Unused Assets
+let unusedColors = colors.subtracting(usedColors)
+unusedColors.forEach { print("\(colorAssetCatalogAbsolutePath):: warning: [Color Unused] \($0)") }
+
+// Generate Error for broken Assets
+let brokenColors = usedColors.subtracting(colors)
+brokenColors.forEach { print("\(assetCatalogAbsolutePath):: error: [Color Missing] \($0)") }
+
+if brokenColors.count > 0 {
     exit(1)
 }
